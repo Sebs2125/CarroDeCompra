@@ -20,64 +20,92 @@
 
 <body>
 
-    <div class="header-tienda d-flex justify-content-between align-items-center">
-        <div class="fw-bold fs-4">Logo - Marcar</div>
-        <nav>
-            <a href="/productos" class="me-3 text-decoration-none">Comprar</a>
-            <a href="/ventas" class="me-3 text-decoration-none">Ventas Realizadas</a>
-            <a href="/admin" class="me-3 text-decoration-none">Administrar Productos</a>
+<div class="header-tienda d-flex justify-content-between align-items-center">
+    <div class="fw-bold fs-4">Carrito Compra </div>
+    <nav>
+        <a href="/productos" class="me-3 text-decoration-none">Comprar</a>
+        <a href="/ventas" class="me-3 text-decoration-none">Ventas Realizadas</a>
+        <a href="/admin" class="me-3 text-decoration-none">Administrar Productos</a>
 
+        <th:block th:if="${usuario == null}">
             <a href="/login" class="me-3 fw-bold text-decoration-none text-primary">Iniciar Sesion</a>
+        </th:block>
+
+        <th:block th:if="${usuario != null}">
+            <span class="me-2 text-muted" th:text="${usuario.nombre}">Usuario</span>
             <a href="/logout" class="me-3 text-decoration-none text-danger">Salir</a>
+        </th:block>
 
-            <a href="/carrito" class="btn btn-outline-primary btn-sm">
-                Carrito (<span th:text="${cantidadCarro != null ? cantidadCarro : 0}">0</span>)
-            </a>
-        </nav>
-    </div>
+        <a href="/carrito" class="btn btn-outline-primary btn-sm active">
+            Carrito (<span th:text="${cantidadCarro != null ? cantidadCarro : 0}">0</span>)
+        </a>
+    </nav>
+</div>
 
-    <h2 class="mb-4">Carrito de Compra</h2>
+<h2 class="mb-4">Carrito de Compra</h2>
 
-    <form action="/productos" method="get">
+<!-- Mensajes de error -->
+<div th:if="${param.error == 'carrito_vacio'}" class="alert alert-warning">
+    El carrito esta vacio.
+</div>
+<div th:if="${param.error == 'cliente_requerido'}" class="alert alert-warning">
+    Por favor ingrese el nombre del cliente.
+</div>
+<div th:if="${param.error == 'sin_stock'}" class="alert alert-danger">
+    No hay suficiente stock para: <span th:text="${param.producto}"></span>
+</div>
+
+
+<!-- Carrito con Productos -->
+<div th:if="${!carroVacio}">
+    <form action="/carrito/procesar" method="post">
+
         <div class="mb-3">
             <label class="fw-bold">Nombre del Cliente:</label>
-            <input type="text" name="nombreCliente" class="form-control w-50" required>
+            <input type="text" name="nombreCliente" class="form-control w-50" placeholder="Ingrese el nombre del cliente" required>
         </div>
 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio (RD$)</th>
-                    <th>Total (RD$)</th>
-
-                </tr>
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+            <tr>
+                <th>Producto</th>
+                <th>Precio Unit. (RD$)</th>
+                <th>Cantidad</th>
+                <th>Total (RD$)</th>
+                <th>Accion</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="p : ${productos}">
-                    <td th:text="${p.nombre}"></td>
-                    <td th:text="${p.precio}"></td>
-                    <td th:text="${p.precio}"></td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" disabled>Eliminar</button>
-                    </td>
-                </tr>
+            <tr th:each="p : ${productosAgrupados}">
+                <td th:text="${p.nombre}"></td>
+                <td th:text="${p.precioUnitario}"></td>
+                <td th:text="${p.cantidad}"></td>
+                <td th:text="${p.total}"></td>
+                <td>
+                    <form th:action="@{/carrito/eliminar}" method="post" style="display:inline;">
+                        <input type="hidden" name="productoId" th:value="${p.id}">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
             </tbody>
             <tfoot>
-                <tr class="fw-bold">
-                    <td colspan="2" class="text-end">Total:</td>
-                    <td th:text="${total}">0.00</td>
-                    <td></td>
-                </tr>
+            <tr class="fw-bold">
+                <td colspan="3" class="text-end">Total:</td>
+                <td th:text="${total}">0.00</td>
+                <td></td>
+            </tr>
             </tfoot>
         </table>
 
         <div class="mt-4">
             <button type="submit" class="btn btn-success">Procesar Compra</button>
-            <button type="submit" formaction="/carrito/limpiar" formmethod="post"
-                class="btn btn-outline-secondary">Limpiar Carro</button>
+            <button type="submit" formaction="/carrito/limpiar" formmethod="post" class="btn btn-outline-secondary">Limpiar Carro</button>
+            <a href="/productos" class="btn btn-outline-primary">Seguir Comprando</a>
         </div>
     </form>
+</div>
+
 </body>
 
 </html>

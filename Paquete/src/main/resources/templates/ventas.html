@@ -5,44 +5,58 @@
     <meta charset="UTF-8">
     <title>Ventas Realizadas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .header-tienda {
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 
-<body class="container mt-4">
-    <nav class="d-flex align-items-center mb-4 border-bottom pb-3">
-        <h4 class="me-4 mb-0">Logo - Marcar</h4>
+<body>
+
+<div class="header-tienda d-flex justify-content-between align-items-center">
+    <div class="fw-bold fs-4">Carrito Compra</div>
+    <nav>
         <a href="/productos" class="me-3 text-decoration-none">Comprar</a>
-        <a href="/ventas" class="me-3 fw-bold text-dark text-decoration-none">Ventas Realizadas</a>
-        <a th:if="${usuario != null && usuario.isConfirmarAdmin()}" href="/admin"
-            class="me-3 text-decoration-none">Administrar Productos</a>
-        <a href="/logout" class="btn btn-sm btn-danger ms-auto">Salir</a>
+        <a href="/ventas" class="fw-bold text-dark me-3 text-decoration-none">Ventas Realizadas</a>
+        <a th:if="${usuario != null && usuario.confirmarAdmin}" href="/admin" class="me-3 text-decoration-none">Administrar Productos</a>
+        <a href="/logout" class="btn btn-sm btn-danger">Salir</a>
     </nav>
+</div>
 
-    <h2 class="mb-4">Registro de Ventas Realizadas</h2>
+<h2 class="mb-4">Registro de Ventas Realizadas</h2>
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID Venta</th>
-                <th>Cliente</th>
-                <th>Articulos</th>
-                <th>Total Pagado</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:if="${#lists.isEmpty(ventas)}">
-                <td colspan="5" class="text-center text-muted">Aun no hay ventas registradas.</td>
-            </tr>
 
-            <tr th:each="v : ${ventas}">
-                <td th:text="${v.id}"></td>
-                <td class="fw-bold text-primary" th:text="${v.cliente}"></td>
-                <td th:text="${v.cantidadItems}"></td>
-                <td class="fw-bold">RD$ <span th:text="${v.total}"></span></td>
-                <td><span class="badge bg-success">Pagado</span></td>
-            </tr>
-        </tbody>
-    </table>
+
+
+<!-- Tabla de Ventas -->
+<table th:if="${!#lists.isEmpty(ventas)}" class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>ID Venta</th>
+        <th>Cliente</th>
+        <th>Articulos</th>
+        <th>Total Pagado</th>
+        <th>Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="v : ${ventas}">
+        <td th:text="${v.id}"></td>
+        <td th:text="${v.cliente}"></td>
+        <td th:text="${v.cantidadItems}"></td>
+        <td th:text="${'RD$ ' + v.total}"></td>
+        <td><span class="badge bg-success">Pagado</span></td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 
 </html>

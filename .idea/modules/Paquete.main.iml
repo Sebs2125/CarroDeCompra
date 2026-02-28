@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="Paquete:main" external.linked.project.path="$MODULE_DIR$/../../Paquete" external.root.project.path="$MODULE_DIR$/../../Paquete" external.system.id="GRADLE" external.system.module.group="org.example" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_24">
     <output url="file://$MODULE_DIR$/../../Paquete/build/classes/java/main" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../Paquete/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../Paquete/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Paquete/src/main/resources" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="openjdk-25" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="corretto-24" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: io.javalin:javalin:5.6.3" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf:thymeleaf:3.1.2.RELEASE" level="project" />

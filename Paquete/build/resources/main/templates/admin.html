@@ -20,100 +20,101 @@
 
 <body>
 
-    <div class="header-tienda d-flex justify-content-between align-items-center">
-        <div class="fw-bold fs-4">Logo - Marcar</div>
-        <nav>
-            <a href="/productos" class="me-3 text-decoration-none">Comprar</a>
-            <a href="/ventas" class="me-3 text-decoration-none">Ventas Realizadas</a>
-            <a href="/admin" class="fw-bold text-dark me-3 text-decoration-none">Administrar Productos</a>
-            <span class="me-3 text-muted" th:if="${usuario != null}" th:text="${usuario.nombre}">Admin</span>
-            <a href="/logout" class="me-3 text-decoration-none text-danger fw-bold">Salir</a>
-        </nav>
-    </div>
+<div class="header-tienda d-flex justify-content-between align-items-center">
+    <div class="fw-bold fs-4">Carrito Compra</div>
+    <nav>
+        <a href="/productos" class="me-3 text-decoration-none">Comprar</a>
+        <a href="/ventas" class="me-3 text-decoration-none">Ventas Realizadas</a>
+        <a href="/admin" class="fw-bold text-dark me-3 text-decoration-none">Administrar Productos</a>
+        <span class="me-3 text-muted" th:if="${usuario != null}" th:text="${usuario.nombre}">Admin</span>
+        <a href="/logout" class="me-3 text-decoration-none text-danger fw-bold">Salir</a>
 
-    <h2 class="mb-4">Administracion de Productos</h2>
+        <a href="/carrito" class="btn btn-outline-primary btn-sm">
+            Carrito (<span th:text="${cantidadCarro != null ? cantidadCarro : 0}">0</span>)
+        </a>
+    </nav>
+</div>
 
-    <div class="bg-light p-4 rounded mb-4">
-        <h5 class="mb-3">Registrar Nuevo Producto</h5>
-        <form action="/admin/productos" method="post" class="row g-3">
-            <div class="col-md-4">
-                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
-            </div>
-            <div class="col-md-3">
-                <input type="number" step="0.01" name="precio" class="form-control" placeholder="Precio" required>
-            </div>
-            <div class="col-md-3">
-                <input type="number" name="inventario" class="form-control" placeholder="Cantidad" required>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Crear</button>
-            </div>
-        </form>
-    </div>
+<h2 class="mb-4">Administracion de Productos</h2>
 
-    <table class="table table-sm table-bordered">
-        <thead class="table-secondary">
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio (RD$)</th>
-                <th>Stock</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="p : ${productos}">
-                <td th:text="${p.id}"></td>
-                <td th:text="${p.nombre}"></td>
-                <td th:text="${p.precio}"></td>
-                <td th:text="${p.inventario}"></td>
-                <td>
-                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                        th:data-bs-target="'#modalEditar' + ${p.id}">
-                        Editar
-                    </button>
+<div class="bg-light p-4 rounded mb-4">
+    <h5 class="mb-3">Registrar Nuevo Producto</h5>
+    <form action="/admin/productos" method="post" class="row g-3">
+        <div class="col-md-4">
+            <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+        </div>
+        <div class="col-md-3">
+            <input type="number" step="0.01" name="precio" class="form-control" placeholder="Precio" required>
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="inventario" class="form-control" placeholder="Cantidad" required min="0">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Crear</button>
+        </div>
+    </form>
+</div>
 
-                    <form th:action="'/admin/productos/' + ${p.id} + '/delete'" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+<table class="table table-sm table-bordered">
+    <thead class="table-secondary">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio (RD$)</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${productos}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nombre}"></td>
+        <td th:text="${p.precio}"></td>
+        <td th:text="${p.inventario}"></td>
+        <td>
+            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    th:data-bs-target="'#modalEditar' + ${p.id}">
+                Editar
+            </button>
 
-                    <div class="modal fade" th:id="'modalEditar' + ${p.id}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header bg-warning">
-                                    <h5 class="modal-title text-dark">Editar Producto</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <form action="/admin/productos/actualizar" method="post">
-                                    <div class="modal-body text-start">
-                                        <input type="hidden" name="id" th:value="${p.id}">
+            <form th:action="'/admin/productos/' + ${p.id} + '/delete'" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+            </form>
 
-                                        <label class="fw-bold mt-2">Nombre:</label>
-                                        <input type="text" name="nombre" th:value="${p.nombre}" class="form-control"
-                                            required>
-
-                                        <label class="fw-bold mt-2">Precio:</label>
-                                        <input type="number" step="0.01" name="precio" th:value="${p.precio}"
-                                            class="form-control" required>
-
-                                        <label class="fw-bold mt-2">Stock en Inventario:</label>
-                                        <input type="number" name="inventario" th:value="${p.inventario}"
-                                            class="form-control" required>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                                    </div>
-                                </form>
-                            </div>
+            <div class="modal fade" th:id="'modalEditar' + ${p.id}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h5 class="modal-title text-dark">Editar Producto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                        <form action="/admin/productos/actualizar" method="post">
+                            <div class="modal-body text-start">
+                                <input type="hidden" name="id" th:value="${p.id}">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                <label class="fw-bold mt-2">Nombre:</label>
+                                <input type="text" name="nombre" th:value="${p.nombre}" class="form-control" required>
+
+                                <label class="fw-bold mt-2">Precio:</label>
+                                <input type="number" step="0.01" name="precio" th:value="${p.precio}" class="form-control" required>
+
+                                <label class="fw-bold mt-2">Stock en Inventario:</label>
+                                <input type="number" name="inventario" th:value="${p.inventario}" class="form-control" required min="0">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
