@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-jetty-common/11.0.17/4f285728858218d24cff7e19515fbe1a934fc81a/websocket-jetty-common-11.0.17.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-jetty-common/11.0.17/9046f0a29cddecd89d9846855d9745e75b79ce22/websocket-jetty-common-11.0.17-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

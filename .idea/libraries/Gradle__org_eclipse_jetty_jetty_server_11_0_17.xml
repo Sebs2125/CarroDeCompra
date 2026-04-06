@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-server/11.0.17/420dd01c2625eb201cdeb68a2a00f2060bf2f410/jetty-server-11.0.17.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-server/11.0.17/f06c78b2cceccabeab709efa306bfa8cac5c8580/jetty-server-11.0.17-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

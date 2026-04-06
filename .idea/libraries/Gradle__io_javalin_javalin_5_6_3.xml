@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.javalin/javalin/5.6.3/60eeda343627044e5105fc895e19c987f2f9b810/javalin-5.6.3.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.javalin/javalin/5.6.3/bb53080e47aa00b87f15fec60a024e89d494aa5/javalin-5.6.3-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
